@@ -53,8 +53,6 @@ pnpm dev
 # 或者 npm run dev
 ```
 
-访问 `http://localhost:5173` 预览项目
-
 ### Vercel在线部署
 
 > 无需服务器，点击链接一键在线部署到 [Vercel](https://vercel.com/new/clone?s=https://github.com/DazzlingDust886/DazzlingDust-home-page.git)（首先需要有github和vercel账号）
