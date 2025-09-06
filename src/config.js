@@ -30,7 +30,7 @@ const config = {
 			"type": "video",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
 				"title": "动态科幻风",
-				"preview": "public/img/wallpaper/动态科幻风.mp4",
+				"preview": "/public/img/wallpaper/动态科幻风.mp4",
 				"url":"https://github.com/DazzlingDust/DazzlingDust-Home-Page/blob/31c0058bf273440a81e2683d1d44f161e57ea6f5/public/img/wallpaper/动态科幻风.mp4"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
