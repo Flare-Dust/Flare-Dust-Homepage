@@ -27,10 +27,10 @@ const config = {
 	// 默认背景壁纸
 	background: {
 		"pc": {  //pc端
-			"type": "pic",   //"pic":静态壁纸;"video":动态壁纸
+			"type": "video",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
-				"title": "海洋女孩",
-				"preview": "/img/wallpaper/static/image-pre.webp",
+				"title": "动态科幻风",
+				"preview": "/img/wallpaper/动态科幻风.mp4",
 				"url":"/img/wallpaper/static/image2.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
@@ -101,9 +101,9 @@ const config = {
 		],
 		video: [
 			{
-				"title": "",
-				"preview": "/img/wallpaper/",
-				"url": "/img/wallpaper/"
+				"title": "动态科幻风",
+				"preview": "/img/wallpaper/动态科幻风.mp4",
+				"url": "/img/wallpaper/动态科幻风.mp4"
 			},
 			{
 				"title": "",
