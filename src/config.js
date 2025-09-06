@@ -27,11 +27,11 @@ const config = {
 	// 默认背景壁纸
 	background: {
 		"pc": {  //pc端
-			"type": "video",   //"pic":静态壁纸;"video":动态壁纸
+			"type": "pic",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
-				"title": "动态科幻风",
-				"preview": "/public/img/wallpaper/动态科幻风.mp4",
-				"url":"https://github.com/DazzlingDust/DazzlingDust-Home-Page/blob/31c0058bf273440a81e2683d1d44f161e57ea6f5/public/img/wallpaper/动态科幻风.mp4"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
+				"title": "安逸舒适",
+				"preview": "/img/wallpaper/​static/image3-pre.webp",
+				"url":"/img/wallpaper/​static/image3-pre.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
 		"mobile": {  //移动端
