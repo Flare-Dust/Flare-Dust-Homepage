@@ -29,9 +29,9 @@ const config = {
 		"pc": {  //pc端
 			"type": "pic",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
-				"title": "安逸舒适",
+				"title": "科技卧室",
 				"preview": "/img/wallpaper/​static/image3-pre.webp",
-				"url":"/img/wallpaper/​static/image3-pre.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
+				"url":"/img/wallpaper/​static/image3.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
 		"mobile": {  //移动端
@@ -78,9 +78,9 @@ const config = {
 	//壁纸数据 -----可以将壁纸文件上传到图床获取网络直链。若想调用api，请前往脚本自行修改逻辑
 	wallpaper: {
 		pic: [
-			{ "title": "海洋女孩", "preview": "/img/wallpaper/static/image-pre.webp", "url": "/img/wallpaper/static/image.png" },
-			{ "title": "书房夜晚", "preview": "/img/wallpaper/static/image2-pre.webp", "url": "/img/wallpaper/static/image2.png" },
-			{ "title": "安逸舒适", "preview": "/img/wallpaper/static/image3-pre.webp", "url": "/img/wallpaper/static/image3.png" },
+			{ "title": "绿野迷踪", "preview": "/img/wallpaper/static/image-pre.webp", "url": "/img/wallpaper/static/image.png" },
+			{ "title": "黑白双煞", "preview": "/img/wallpaper/static/image2-pre.webp", "url": "/img/wallpaper/static/image2.png" },
+			{ "title": "科技卧室", "preview": "/img/wallpaper/static/image3-pre.webp", "url": "/img/wallpaper/static/image3.png" },
 			{ "title": "jswcMaMj", "preview": "https://s21.ax1x.com/2025/07/23/pVGli59.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGli59.jpg" },
 			{ "title": "pgtTqoqq", "preview": "https://s21.ax1x.com/2025/07/23/pVGlmDO.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlmDO.jpg" },
 			{ "title": "cvKMKhue", "preview": "https://s21.ax1x.com/2025/07/23/pVGlNqS.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlNqS.jpg" },
