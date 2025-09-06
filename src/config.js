@@ -30,8 +30,8 @@ const config = {
 			"type": "video",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
 				"title": "动态科幻风",
-				"preview": "/img/wallpaper/动态科幻风.mp4",
-				"url":"/img/wallpaper/动态科幻风.mp4"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
+				"preview": "public/img/wallpaper/动态科幻风.mp4",
+				"url":"public/img/wallpaper/动态科幻风.mp4"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
 		"mobile": {  //移动端
@@ -102,8 +102,8 @@ const config = {
 		video: [
 			{
 				"title": "动态科幻风",
-				"preview": "/img/wallpaper/动态科幻风.mp4",
-				"url": "/img/wallpaper/动态科幻风.mp4"
+				"preview": "public/img/wallpaper/动态科幻风.mp4",
+				"url": "public/img/wallpaper/动态科幻风.mp4"
 			},
 			{
 				"title": "",
