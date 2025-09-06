@@ -72,22 +72,9 @@ const config = {
 const musicPlayer = {
   server: 'netease',  // 服务提供商 - 网易云音乐
   type: 'playlist',    // 歌单类型
-  id: '3778678',       // 歌单 ID（你可以替换为自己的歌单ID）
+  id: '3778678',       // 歌单 ID（可以替换为你的歌单ID）
   token: '0050705497FF5123F4341A4B3A03817F1AA12AED60AEDC0D0877CE692D0CF08D06E45D2864FF1F61279CA7FA1337EF37F500DBB94BD186EF01E1D2F3153276C3CD2BBD407D6B929F55FAE52761DC6C669BDD15B8D1671B13B5536BD3D10E63B8910CF7C86FFD1EF0715F6E1A16398CDECE1A40DA4F0042A5D9378FA0FD102E3F5CF5C33CB779A37B0789421AB2C5C22D67634D2D105B4A2FDB02F62E88F9652EF8600640394A5116594682B1B4E9A52061B81AF945ED21F8EE99B53767039E0669BB61E6203BDD1A3A6CE95B11DA6F2E1A8ECD59AFA8184BB6D3BB3CE807589265023165250D59FBA2F5D756F4DC65DF60A9DBFBEE64135ED944F478FE9F45D9FACF4DB1A6744F8AEDA04730BC8AFE5A7D82CE20E77C75660208EA1774A92541542924221622AAB0F7C08156D1039CFC19A229D5C99CA59E463760CFDC951606853DC16BE0A50C70E5745881B1E439F609',    // 替换为你的网易云 Token
 },
-
-const apiUrl = `https://api.metaring.com/netease/playlist?id=${musicPlayer.id}&token=${musicPlayer.token}`;
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    if (data && data.songs) {
-      const firstSong = data.songs[0];  // 播放第一首歌
-      console.log(`播放: ${firstSong.name} - ${firstSong.artists[0].name}`);
-    } else {
-      console.log('无法播放会员歌曲，请检查登录状态');
-    }
-  })
-  .catch(error => console.error('错误:', error));
 
 	//壁纸数据 -----可以将壁纸文件上传到图床获取网络直链。若想调用api，请前往脚本自行修改逻辑
 	wallpaper: {
