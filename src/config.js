@@ -31,7 +31,7 @@ const config = {
 			"datainfo": {
 				"title": "动态科幻风",
 				"preview": "/img/wallpaper/动态科幻风.mp4",
-				"url":"/img/wallpaper/static/image2.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
+				"url":"/img/wallpaper/动态科幻风.mp4"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
 		"mobile": {  //移动端
