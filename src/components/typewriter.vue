@@ -14,7 +14,7 @@ async function fetchQuotes(count = 20) {
     try {
         // 获取多条语录
         for (let i = 0; i < count; i++) {
-            const response = await fetch('https://api.mir6.com/api/yulu');
+            const response = await fetch('https://api.mir6.com/api/yulu?txt=4&type=text');
             const data = await response.json();
             if (data.code === 200 && data.text) {
                 quotes.push(data.text);
