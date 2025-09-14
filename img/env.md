@@ -43,10 +43,10 @@
 	},
 	"socialPlatformIcons": [{
 		"icon": "mdi-github",
-		"link": "https://www.github.com/DazzlingDust886"
+		"link": "https://www.github.com/Flare-Dust"
 	}, {
 		"icon": "mdi-email",
-		"link": "mailto:DazzlingDust886@foxmail.com"
+		"link": "mailto:Flare-Dust@foxmail.com"
 	}, {
 		"icon": "mdi-qqchat",
 		"link": "https://im.qq.com/"
