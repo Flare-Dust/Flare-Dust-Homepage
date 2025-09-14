@@ -1,4 +1,4 @@
-# 🌟 DazzlingDust 个人主页
+# 🌟 Flare-Dust 个人主页
 
 <div align="center">
 
