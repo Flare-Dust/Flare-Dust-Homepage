@@ -3,7 +3,7 @@
   <div class="github-stats-card">
     <div class="github-stats-container">
       <img 
-        src="https:https://github-readme-stats.vercel.app/api?username=Flare-Dust&show_icons=true&theme=tokyonight&hide_title=true&count_private=true&bg_color=00000000&border_color=00000000"
+        src="https://github-readme-stats.vercel.app/api?username=Flare-Dust&show_icons=true&theme=tokyonight&hide_title=true&count_private=true&bg_color=00000000&border_color=00000000"
         alt="GitHub Stats"
         class="github-stats-image"
         @error="onImageError"
