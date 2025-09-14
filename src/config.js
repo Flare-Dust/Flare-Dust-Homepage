@@ -30,16 +30,16 @@ const config = {
 			"type": "pic",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
 				"title": "科技卧室",
-				"preview": "/img/wallpaper/image3-pre.webp",
-				"url":"/img/wallpaper/​static/image3.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
+				"preview": "public/img/wallpaper/image3-pre.webp",
+				"url":"public/img/wallpaper/​static/image3.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
 		"mobile": {  //移动端
 			"type": "pic",
 			"datainfo": {
 				"title": "0001",
-				"preview": "/img/wallpaper/static-mobile/0001/image-pre.webp",
-			"url":"/img/wallpaper/static/image.png"
+				"preview": "public/img/wallpaper/image-pre.webp",
+			"url":"public/img/wallpaper/image.png"
 			}	//随机手机壁纸api:"url":"https://t.mwm.moe/mp"
 		}
 
