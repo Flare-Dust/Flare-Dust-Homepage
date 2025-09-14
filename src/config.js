@@ -24,26 +24,25 @@ const config = {
 	// 我的标签
 	tags: [ 'CHINA', 'Student', 'Minecraft', 'SKY', 'C++', 'HTML', '……'],
 
-	// 默认背景壁纸
+// 默认壁纸
 	background: {
-		"pc": {  //pc端
-			"type": "pic",   //"pic":静态壁纸;"video":动态壁纸
-			"datainfo": {
-				"title": "科技卧室",
-				"preview": "public/img/wallpaper/image3-pre.webp",
-				"url":"public/img/wallpaper/​static/image3.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
-			},
-		},
-		"mobile": {  //移动端
-			"type": "pic",
-			"datainfo": {
-				"title": "0001",
-				"preview": "public/img/wallpaper/image-pre.webp",
-			"url":"public/img/wallpaper/image.png"
-			}	//随机手机壁纸api:"url":"https://t.mwm.moe/mp"
-		}
-
-	},
+    "pc": {
+        "type": "pic",
+        "datainfo": {
+            "title": "科技卧室",
+            "preview": "https://s21.ax1x.com/2025/09/14/pVfCKmQ.jpg",
+            "url": "https://s21.ax1x.com/2025/09/14/pVfCKmQ.jpg"
+        },
+    },
+    "mobile": {
+        "type": "pic",
+        "datainfo": {
+            "title": "黑白双煞",
+            "preview": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg",
+            "url": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg"
+        }
+    }
+},
 
 	//极坐标图数据
 	polarChart: {
@@ -78,62 +77,62 @@ const config = {
 
 	//壁纸数据 -----可以将壁纸文件上传到图床获取网络直链。若想调用api，请前往脚本自行修改逻辑
 	wallpaper: {
-		pic: [
-			{ "title": "绿野迷踪", "preview": "/img/wallpaper/static/image-pre.webp", "url": "/img/wallpaper/static/image.png" },
-			{ "title": "黑白双煞", "preview": "/img/wallpaper/static/image2-pre.webp", "url": "/img/wallpaper/static/image2.png" },
-			{ "title": "科技卧室", "preview": "/img/wallpaper/image3-pre.webp", "url": "/img/wallpaper/image3.png" },
-			{ "title": "jswcMaMj", "preview": "https://s21.ax1x.com/2025/07/23/pVGli59.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGli59.jpg" },
-			{ "title": "pgtTqoqq", "preview": "https://s21.ax1x.com/2025/07/23/pVGlmDO.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlmDO.jpg" },
-			{ "title": "cvKMKhue", "preview": "https://s21.ax1x.com/2025/07/23/pVGlNqS.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlNqS.jpg" },
-			{ "title": "XpxvQVoP", "preview": "https://s21.ax1x.com/2025/07/23/pVGlfIJ.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlfIJ.jpg" },
-			{ "title": "fVEEjEOA", "preview": "https://s21.ax1x.com/2025/07/23/pVGlEgx.md.webp", "url": "https://s21.ax1x.com/2025/07/23/pVGlEgx.webp" },
-			{ "title": "jgnIKMpd", "preview": "https://s21.ax1x.com/2025/07/23/pVGldaQ.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGldaQ.jpg" },
-			{ "title": "mgqyySeh", "preview": "https://s21.ax1x.com/2025/07/23/pVGl82t.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGl82t.jpg" },
-			{ "title": "dSXZfZp", "preview": "https://s21.ax1x.com/2025/07/23/pVGlaVg.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlaVg.jpg" },
-		],
-		picMobile: [
-			{ "title": "0001", "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp", "url": "/img/wallpaper/static-mobile/0001/image.png" },
-			{ "title": "0002", "preview": "/img/wallpaper/static-mobile/0002/image-pre.webp", "url": "/img/wallpaper/static-mobile/0002/image.png" },
-			{ "title": "0003", "preview": "/img/wallpaper/static-mobile/0003/image-pre.webp", "url": "/img/wallpaper/static-mobile/0003/image.png" },
-			{ "title": "0004", "preview": "/img/wallpaper/static-mobile/0004/image-pre.webp", "url": "/img/wallpaper/static-mobile/0004/image.png" },
-			{ "title": "DfNHPPcc", "preview": "https://s21.ax1x.com/2025/07/23/pVG1uQ0.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVG1uQ0.jpg" },
-			{ "title": "cZZwzhis", "preview": "https://s21.ax1x.com/2025/07/23/pVG1Vij.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVG1Vij.jpg" },
-			{ "title": "aANKZHPX", "preview": "https://s21.ax1x.com/2025/07/23/pVGlIR1.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlIR1.jpg" },
-		],
-		video: [
-			{
-				"title": "动态科幻风",
-				"preview": "public/img/wallpaper/动态科幻风.mp4",
-				"url": "public/img/wallpaper/动态科幻风.mp4"
-			},
-			{
-				"title": "",
-				"preview": "/img/wallpaper/",
-				"url": "/img/wallpaper/"
-			},
-			{
-				"title": "",
-				"preview": "",
-				"url": ""
-			},
-		],
-		videoMobile: [
-			{
-				"title": "",
-				"preview": "/img/wallpaper/"
-			},
-			{
-				"title": "",
-				"preview": "/img/wallpaper/",
-				"url": ""
-			},
-			{
-				"title": "",
-				"preview": "/img/wallpaper/",
-				"url": "/img/wallpaper/"
-			},
-		],
-	},
+    pic: [
+        { "title": "绿野迷踪", "preview": "/img/wallpaper/static/image-pre.webp", "url": "/img/wallpaper/static/image.png" },
+        { "title": "黑白双煞", "preview": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg", "url": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg" },
+        { "title": "科技卧室", "preview": "https://s21.ax1x.com/2025/09/14/pVfCKmQ.jpg", "url": "https://s21.ax1x.com/2025/09/14/pVfCKmQ.jpg" },
+        { "title": "jswcMaMj", "preview": "https://s21.ax1x.com/2025/07/23/pVGli59.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGli59.jpg" },
+        { "title": "pgtTqoqq", "preview": "https://s21.ax1x.com/2025/07/23/pVGlmDO.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlmDO.jpg" },
+        { "title": "cvKMKhue", "preview": "https://s21.ax1x.com/2025/07/23/pVGlNqS.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlNqS.jpg" },
+        { "title": "XpxvQVoP", "preview": "https://s21.ax1x.com/2025/07/23/pVGlfIJ.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlfIJ.jpg" },
+        { "title": "fVEEjEOA", "preview": "https://s21.ax1x.com/2025/07/23/pVGlEgx.md.webp", "url": "https://s21.ax1x.com/2025/07/23/pVGlEgx.webp" },
+        { "title": "jgnIKMpd", "preview": "https://s21.ax1x.com/2025/07/23/pVGldaQ.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGldaQ.jpg" },
+        { "title": "mgqyySeh", "preview": "https://s21.ax1x.com/2025/07/23/pVGl82t.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGl82t.jpg" },
+        { "title": "dSXZfZp", "preview": "https://s21.ax1x.com/2025/07/23/pVGlaVg.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlaVg.jpg" }
+    ],
+    picMobile: [
+        { "title": "0001", "preview": "/img/wallpaper/static-mobile/0001/image-pre.webp", "url": "/img/wallpaper/static-mobile/0001/image.png" },
+        { "title": "0002", "preview": "/img/wallpaper/static-mobile/0002/image-pre.webp", "url": "/img/wallpaper/static-mobile/0002/image.png" },
+        { "title": "0003", "preview": "/img/wallpaper/static-mobile/0003/image-pre.webp", "url": "/img/wallpaper/static-mobile/0003/image.png" },
+        { "title": "0004", "preview": "/img/wallpaper/static-mobile/0004/image-pre.webp", "url": "/img/wallpaper/static-mobile/0004/image.png" },
+        { "title": "DfNHPPcc", "preview": "https://s21.ax1x.com/2025/07/23/pVG1uQ0.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVG1uQ0.jpg" },
+        { "title": "cZZwzhis", "preview": "https://s21.ax1x.com/2025/07/23/pVG1Vij.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVG1Vij.jpg" },
+        { "title": "aANKZHPX", "preview": "https://s21.ax1x.com/2025/07/23/pVGlIR1.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlIR1.jpg" }
+    ],
+    video: [
+        {
+            "title": "动态科幻风",
+            "preview": "public/img/wallpaper/动态科幻风.mp4",
+            "url": "public/img/wallpaper/动态科幻风.mp4"
+        },
+        {
+            "title": "",
+            "preview": "/img/wallpaper/",
+            "url": "/img/wallpaper/"
+        },
+        {
+            "title": "",
+            "preview": "",
+            "url": ""
+        }
+    ],
+    videoMobile: [
+        {
+            "title": "",
+            "preview": "/img/wallpaper/"
+        },
+        {
+            "title": "",
+            "preview": "/img/wallpaper/",
+            "url": ""
+        },
+        {
+            "title": "",
+            "preview": "/img/wallpaper/",
+            "url": "/img/wallpaper/"
+        }
+    ]
+},
 
 	//项目卡片 其中 字段"show"控制初始卡片的text是否展开
 	projectcards: [
