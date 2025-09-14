@@ -1,9 +1,9 @@
 const config = {
 	//网页元数据
 	metaData: {
-		title: '✨Dazzling Dust的个人主页✨',
+		title: '✨Flare-Dust的个人主页✨',
 		description: 'Dazzing Dust’s Homepage',
-		keywords: 'Shining Dust,Dazzling Dust,个人主页,个人网站',
+		keywords: 'Shining Dust,Flare Dust,Flare-Dust,个人主页,个人网站',
 		icon: 'https://q.qlogo.cn/headimg_dl?dst_uin=1246663835&spec=640&img_type=jpg'   //网页图标，支持外链
 	},
 
@@ -53,7 +53,7 @@ const config = {
 
 	//社交按钮 - 使用Iconify图标
 	socialPlatformIcons: [
-		{ icon: "line-md:github-loop", link: "https://github.com/DazzlingDust" },
+		{ icon: "line-md:github-loop", link: "https://github.com/Flare-Dust" },
 		{ icon: "line-md:email", link: "mailto:DazzlingDust886@foxmail.com" },
 		{ icon: "line-md:telegram", link: "https://t.me/Shining_Dust" },
 		{ icon: "simple-icons:bilibili", link: "https://m.bilibili.com/space/3546706436164078" },
