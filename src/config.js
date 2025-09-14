@@ -8,7 +8,7 @@ const config = {
 	},
 
 	avatar: "http://q.qlogo.cn/headimg_dl?dst_uin=1246663835&spec=640&img_type=jpg", // 头像
-	welcometitle: "Welcome to Dazzing Dust’s homepage！", // 标题
+	welcometitle: "Welcome to Flare-Dust’s homepage！", // 标题
 
 	// 颜色配置
 	color: {
