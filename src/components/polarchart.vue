@@ -3,7 +3,7 @@
   <div class="github-stats-card">
     <div class="github-stats-container">
       <img 
-        src="https://github-readme-stats.vercel.app/api?username=DazzlingDust&show_icons=true&theme=vision-friendly-dark&hide_title=true&count_private=true&bg_color=00000000&border_color=00000000"
+        src="https://github-readme-stats.vercel.app/api?username=Flare-Dust&show_icons=true&theme=vision-friendly-dark&hide_title=true&count_private=true&bg_color=00000000&border_color=00000000"
         alt="GitHub Stats"
         class="github-stats-image"
         @error="onImageError"
@@ -22,7 +22,7 @@
   <div class="visitor-counter-card">
     <div class="visitor-counter">
       <img 
-        src="https://count.getloli.com/@DazzingDust?name=DazzingDust&theme=morden-num&padding=9&offset=0&align=center&scale=1&pixelated=1&darkmode=auto"
+        src="https://count.getloli.com/@Flare-Dust?name=Flare-Dust&theme=morden-num&padding=9&offset=0&align=center&scale=1&pixelated=1&darkmode=auto"
         alt="访问计数器"
         class="counter-image"
         @error="onCounterError"
