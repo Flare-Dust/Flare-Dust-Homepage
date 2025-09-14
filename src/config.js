@@ -25,24 +25,24 @@ const config = {
 	tags: [ 'CHINA', 'Student', 'Minecraft', 'SKY', 'C++', 'HTML', '……'],
 
 // 默认壁纸
-	background: {
-    "pc": {
-        "type": "pic",
-        "datainfo": {
-            "title": "科技卧室",
-            "preview": "https://s21.ax1x.com/2025/09/14/pVfCKmQ.jpg",
-            "url": "https://s21.ax1x.com/2025/09/14/pVfCKmQ.jpg"
-        },
+export default {
+  background: {
+    pc: {
+      type: "pic",
+      datainfo: {
+        title: "科技卧室",
+        url: "https://example.com/backgrounds/bg1.jpg"
+      }
     },
-    "mobile": {
-        "type": "pic",
-        "datainfo": {
-            "title": "黑白双煞",
-            "preview": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg",
-            "url": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg"
-        }
+    mobile: {
+      type: "pic",
+      datainfo: {
+        title: "星空壁纸",
+        url: "https://example.com/backgrounds/bg2.jpg"
+      }
     }
-},
+  }
+}
 
 	//极坐标图数据
 	polarChart: {
