@@ -30,7 +30,7 @@ const config = {
 			"type": "pic",   //"pic":静态壁纸;"video":动态壁纸
 			"datainfo": {
 				"title": "科技卧室",
-				"preview": "/img/wallpaper/​static/image3-pre.webp",
+				"preview": "/img/wallpaper/image3-pre.webp",
 				"url":"/img/wallpaper/​static/image3.png"//随机PC壁纸api："url":"https://t.mwm.moe/pc"
 			},
 		},
@@ -81,7 +81,7 @@ const config = {
 		pic: [
 			{ "title": "绿野迷踪", "preview": "/img/wallpaper/static/image-pre.webp", "url": "/img/wallpaper/static/image.png" },
 			{ "title": "黑白双煞", "preview": "/img/wallpaper/static/image2-pre.webp", "url": "/img/wallpaper/static/image2.png" },
-			{ "title": "科技卧室", "preview": "/img/wallpaper/static/image3-pre.webp", "url": "/img/wallpaper/static/image3.png" },
+			{ "title": "科技卧室", "preview": "/img/wallpaper/image3-pre.webp", "url": "/img/wallpaper/image3.png" },
 			{ "title": "jswcMaMj", "preview": "https://s21.ax1x.com/2025/07/23/pVGli59.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGli59.jpg" },
 			{ "title": "pgtTqoqq", "preview": "https://s21.ax1x.com/2025/07/23/pVGlmDO.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlmDO.jpg" },
 			{ "title": "cvKMKhue", "preview": "https://s21.ax1x.com/2025/07/23/pVGlNqS.md.jpg", "url": "https://s21.ax1x.com/2025/07/23/pVGlNqS.jpg" },
