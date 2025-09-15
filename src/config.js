@@ -29,17 +29,17 @@ const config = {
                 "pc": {   //pc端
                         "type": "pic",   //"pic":静态壁纸;"video":动态壁纸
                         "datainfo": {
-                                "title": "海洋女孩",
-                                "preview": "",
-                                "url": "https://example.com/backgrounds/bg1.jpg",     //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
+                                "title": "cat",
+                                "preview": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg",
+                                "url": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg",     //当然，也可填写网络地址或壁纸api，如随机PC壁纸api："url":"https://t.mwm.moe/pc"
                         },
                 },
                 "mobile": {   //移动端
                         "type": "pic",
                         "datainfo": {
-                                "title": "0001",
-                                "preview": "",
-                                "url": "https://example.com/backgrounds/bg2.jpg"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp"
+                                "title": "cat",
+                                "preview": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg",
+                                "url": "https://s21.ax1x.com/2025/09/14/pVfCMwj.jpg"  //同理，随机移动端壁纸："url":"https://t.mwm.moe/mp"
                         }
                 }
 
