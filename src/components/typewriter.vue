@@ -15,12 +15,30 @@ export default {
   name: "QuoteApp",
   data() {
     return {
-      quotes: []
+      quotes: [],
+      // ✅ 备用语录，API 挂掉时使用
+      fallbackQuotes: [
+        "星辰大海，路在脚下。",
+        "代码即诗，逻辑亦美。",
+        "再平凡的石头，也有属于它的光。",
+        "保持热爱，奔赴山海。",
+        "静下来，才听得见心声。"
+      ]
     };
+  },
+  mounted() {
+    // ✅ 页面加载时自动加载语录
+    this.loadQuotes();
   },
   methods: {
     async loadQuotes() {
-      this.quotes = await fetchBatch(5);
+      let result = await fetchBatch(5);
+      // 如果 API 没返回数据，就用备用语录
+      if (!result || result.length === 0) {
+        console.warn("⚠️ API 无响应，使用备用语录。");
+        result = this.fallbackQuotes;
+      }
+      this.quotes = result;
     }
   }
 };
@@ -37,9 +55,7 @@ async function fetchBatch(batchSize = 5) {
         const response = await fetch("https://v1.hitokoto.cn/?encode=json", {
           method: "GET",
           headers: {
-            Accept: "application/json, text/plain, */*",
-            "User-Agent":
-              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+            Accept: "application/json, text/plain, */*"
           }
         });
 
@@ -55,7 +71,7 @@ async function fetchBatch(batchSize = 5) {
           throw new Error("返回的不是合法 JSON: " + raw.slice(0, 100));
         }
 
-        // 👇 兼容映射，保证 data.text 可用
+        // 👇 兼容字段
         if (!data.text && data.hitokoto) {
           data.text = data.hitokoto;
         }
