@@ -1,8 +1,8 @@
 <template>
   <div class="Flare-Dust-typewriter" style="text-align: center;">
-    <span class="qm">“ </span>
+    <span class="qm">“</span>
     <span ref="text" class="msg"></span>
-    <span class="qm"> ”</span>
+    <span class="qm">”</span>
   </div>
 </template>
 
@@ -24,6 +24,7 @@ const fallbackQuotes = [
 let quotes = [];
 let quoteIndex = 0;
 
+// 获取语录的函数，API故障时会使用备用语录
 async function fetchQuote() {
   try {
     const res = await fetch("https://v1.hitokoto.cn/?encode=json");
@@ -34,6 +35,7 @@ async function fetchQuote() {
   }
 }
 
+// 加载语录
 async function loadQuotes() {
   for (let i = 0; i < 5; i++) {
     const q = await fetchQuote();
@@ -42,22 +44,23 @@ async function loadQuotes() {
   if (quotes.length === 0) quotes.push(...fallbackQuotes);
 }
 
-// 初始化TypeIt并开始打字
+// 初始化TypeIt实例并开始打字
 function startTyping() {
-  if (typeItInstance) typeItInstance.destroy();  // 确保销毁旧实例
+  if (typeItInstance) typeItInstance.destroy();  // 确保销毁之前的实例
 
   typeItInstance = new TypeIt(text.value, {
-    strings: [quotes[quoteIndex]],
-    speed: 100,
-    deleteSpeed: 60,
-    lifeLike: true,
-    cursorChar: "<span class='cursorChar'>|</span>",
-    waitUntilVisible: true,
-    afterStringTyped: () => {
+    strings: [quotes[quoteIndex]], // 当前显示的语录
+    speed: 100,                     // 打字速度
+    deleteSpeed: 60,                // 删除速度
+    lifeLike: true,                 // 模拟真人打字效果
+    cursorChar: "<span class='cursorChar'>|</span>",  // 光标样式
+    waitUntilVisible: true,         // 确保元素显示完才开始打字
+    afterStringTyped: () => {      // 每次打字完成后执行
       setTimeout(() => {
-        quoteIndex = (quoteIndex + 1) % quotes.length;
-        typeItInstance.reset().delete().go(); // 删除之前的内容，进行新的打字
-        startTyping(); // 开始下一个语录的打字
+        // 逐字删除并进入下一条语录
+        typeItInstance.reset().delete().go();
+        quoteIndex = (quoteIndex + 1) % quotes.length; // 切换语录
+        startTyping();  // 继续显示下一个语录
       }, 500);
     },
   }).go();
@@ -65,7 +68,7 @@ function startTyping() {
 
 onMounted(async () => {
   await loadQuotes();
-  startTyping();
+  startTyping(); // 启动打字效果
 });
 
 onUnmounted(() => {
@@ -89,7 +92,6 @@ onUnmounted(() => {
   100% { opacity: 1; }
 }
 
-/* 设置文本样式和渐变动画 */
 .msg, .qm {
   background: linear-gradient(90deg, #00CED1, #1E90FF, #00CED1);
   background-size: 200% 200%;
@@ -103,7 +105,6 @@ onUnmounted(() => {
   text-shadow: 1px 1px 1.2px rgba(0, 0, 0, 0.25); /* 文字阴影效果 */
 }
 
-/* 设置光标样式与渐变动画 */
 .msg ::v-deep .cursorChar {
   display: inline-block;
   margin-left: 2px;
