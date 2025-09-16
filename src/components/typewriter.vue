@@ -10,7 +10,6 @@ import TypeIt from "typeit";
 
 const text = ref(null);
 let typeItInstance = null;
-let quotes = []; // 用来存储语录
 
 // 🔹 备用语录数组（API 挂了时使用）
 const fallbackQuotes = [
@@ -22,30 +21,20 @@ const fallbackQuotes = [
 ];
 
 // 初始化打字效果
-function initializeTypeIt() {
+function initializeTypeIt(quotes) {
   if (typeItInstance) {
-    typeItInstance.destroy();  // 销毁上一个实例
-    text.value.innerHTML = ""; // 清空文本内容
+    typeItInstance.destroy();
+    text.value.innerHTML = "";
   }
 
-  // 每次从新的语录中开始打字
   typeItInstance = new TypeIt(text.value, {
-    strings: quotes,          // 显示语录
-    cursorChar: "<span class='cursorChar'>|</span>", // 光标样式
-    speed: 100,               // 打字速度
-    deleteSpeed: 70,          // 删除速度
-    lifeLike: true,           // 模拟真人打字效果
-    breakLines: false,        // 不自动换行
-    loop: false,              // 只显示一次
-    afterStringTyped: () => {
-      setTimeout(() => {
-        // 逐字删除并切换到下一条语录
-        typeItInstance.reset().delete().go();
-        setTimeout(() => {
-          loadNextQuote(); // 加载下一个语录
-        }, 1000); // 延迟后切换语录
-      }, 500); // 延迟删除
-    }
+    strings: quotes,       // 循环显示语录
+    cursorChar: "<span class='cursorChar'>|<span>",
+    speed: 100,            // 打字速度
+    deleteSpeed: 70,       // 删除速度
+    lifeLike: true,        // 模拟真人打字
+    breakLines: false,
+    loop: true             // 循环显示
   }).go();
 }
 
@@ -60,26 +49,26 @@ async function fetchQuote() {
   }
 }
 
-// 加载下一条语录
-async function loadNextQuote() {
-  const newQuote = await fetchQuote();
-  if (newQuote) {
-    quotes = [newQuote]; // 只显示一条新语录
-    initializeTypeIt();  // 重新初始化打字效果
-  } else {
-    // 如果获取不到新语录，使用备用语录
-    quotes = [fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)]];
-    initializeTypeIt();  // 重新初始化打字效果
-  }
-}
+onMounted(async () => {
+  const quotes = [];
 
-onMounted(() => {
-  loadNextQuote(); // 初始化加载第一个语录
+  // 🔹 初始尝试获取 5 条 API 语录
+  for (let i = 0; i < 5; i++) {
+    const q = await fetchQuote();
+    if (q) quotes.push(q);
+  }
+
+  // 🔹 如果 API 挂了，启用备用语录
+  if (quotes.length === 0) {
+    quotes.push(...fallbackQuotes);
+  }
+
+  initializeTypeIt(quotes);
 });
 
 onUnmounted(() => {
   if (typeItInstance) {
-    typeItInstance.destroy(); // 销毁实例
+    typeItInstance.destroy();
     typeItInstance = null;
   }
 });
@@ -87,18 +76,18 @@ onUnmounted(() => {
 
 <style scoped>
 .msg, .qm {
-  color: #00CED1; /* 蓝青色 */
+  color: #0000FF; /* 蓝色 */
   letter-spacing: 2px;
-  font-family: "STZhongsong", "华文中宋", serif; /* 使用华文中宋字体 */
+  font-family: "华文中宋", serif;
   font-size: 25px;
-  font-weight: 900; /* 加粗 */
+  font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .msg ::v-deep.cursorChar {
   display: inline-block;
   margin-left: 2px;
-  color: #00CED1; /* 光标颜色 */
+  color: #0000FF; /* 蓝色 */
 }
 
 @media screen and (min-width: 960px) and (max-width: 1200px) {
@@ -108,7 +97,7 @@ onUnmounted(() => {
 }
 
 @media (max-width: 960px) {
-  .DazzlingDust-typewriter {
+  .Flare-Dust-typewriter {
     min-height: 76px;
   }
 
