@@ -25,30 +25,27 @@ const fallbackQuotes = [
 
 // 初始化打字效果
 function initializeTypeIt(quotes) {
-  // 如果已有 TypeIt 实例则销毁
   if (typeItInstance) {
-    typeItInstance.destroy();
+    typeItInstance.destroy(); // 销毁旧的实例
   }
 
-  // 创建新的 TypeIt 实例
+  // 创建新的打字效果实例
   typeItInstance = new TypeIt(text.value, {
-    strings: [quotes[quotesIndex]], // 当前语录
-    cursorChar: "<span class='cursorChar'>|</span>", // 光标样式
-    speed: 100,                      // 打字速度
-    deleteSpeed: 50,                 // 删除速度
-    deleteDelay: 500,                // 删除延迟
-    lifeLike: true,                  // 模拟真人打字效果
-    breakLines: false,               // 不自动换行
-    loop: false,                     // 不循环
-    afterStringTyped: () => {        // 当前语录播放完后切换
+    strings: [quotes[quotesIndex]],  // 当前语录
+    cursorChar: "<span class='cursorChar'>|</span>",  // 光标样式
+    speed: 100,  // 打字速度
+    deleteSpeed: 50,  // 删除速度
+    deleteDelay: 500,  // 删除延迟
+    lifeLike: true,  // 模拟真人打字
+    breakLines: false,  // 不换行
+    loop: false,  // 不循环
+    afterStringTyped: () => {
+      // 当前语录播放完后，等待500ms后自动切换
       setTimeout(() => {
-        // 更新语录索引
-        quotesIndex = (quotesIndex + 1) % quotes.length;
-        initializeTypeIt(quotes); // 重新初始化并加载下一条语录
-      }, 500); // 延迟500ms后切换
+        quotesIndex = (quotesIndex + 1) % quotes.length;  // 更新语录索引
+        initializeTypeIt(quotes);  // 刷新并播放下一条语录
+      }, 500);
     },
-    // 删除效果
-    deleteDelay: 500,               // 删除延迟
   }).go();
 }
 
@@ -57,15 +54,16 @@ async function fetchQuote() {
   try {
     const response = await fetch("https://v1.hitokoto.cn/?encode=json");
     const data = await response.json();
-    return data.hitokoto || data.text || null;
+    return data.hitokoto || data.text || null; // 获取语录
   } catch {
-    return null; // 如果API失败，返回空值
+    return null;  // API失败时返回空值
   }
 }
 
 // 页面加载时获取语录并初始化
 onMounted(async () => {
   const quotes = [];
+  
   // 获取5条语录
   for (let i = 0; i < 5; i++) {
     const q = await fetchQuote();
@@ -82,7 +80,7 @@ onMounted(async () => {
 // 页面卸载时销毁打字实例
 onUnmounted(() => {
   if (typeItInstance) {
-    typeItInstance.destroy();
+    typeItInstance.destroy(); // 销毁实例
     typeItInstance = null;
   }
 });
