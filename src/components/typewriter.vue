@@ -108,7 +108,7 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   animation: gradientFlow 8s ease infinite; /* 渐变流动效果 */
   letter-spacing: 2px;
-  font-family: Arial, sans-serif;
+  font-family: "STKaiti", "华文正楷", serif; /* 华文正楷字体 */
   font-size: 25px;
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25); /* 文字阴影效果 */
