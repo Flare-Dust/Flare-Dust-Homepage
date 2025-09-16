@@ -24,6 +24,7 @@ const fallbackQuotes = [
 let quotes = [];
 let quoteIndex = 0;
 
+// 🔹 获取 API 语录
 async function fetchQuote() {
   try {
     const res = await fetch("https://v1.hitokoto.cn/?encode=json");
@@ -34,6 +35,7 @@ async function fetchQuote() {
   }
 }
 
+// 🔹 初始化语录数组
 async function loadQuotes() {
   for (let i = 0; i < 5; i++) {
     const q = await fetchQuote();
@@ -42,28 +44,23 @@ async function loadQuotes() {
   if (quotes.length === 0) quotes.push(...fallbackQuotes);
 }
 
+// 🔹 开始打字效果
 function startTyping() {
-  if (typeItInstance) typeItInstance.destroy();
-
-  typeItInstance = new TypeIt(text.value, {
-    speed: 100,
-    deleteSpeed: 60,
-    lifeLike: true,
-    cursorChar: "<span class='cursorChar'>|</span>",
-    waitUntilVisible: true,
-  });
-
   function typeNextQuote() {
-    typeItInstance
-      .reset()
-      .type(quotes[quoteIndex])
-      .pause(800)
-      .delete({ delay: 500, speed: 60 })
-      .call(() => {
+    if (!text.value) return;
+
+    typeItInstance = new TypeIt(text.value, {
+      strings: [quotes[quoteIndex]],
+      speed: 100,
+      deleteSpeed: 60,
+      lifeLike: true,
+      cursorChar: "<span class='cursorChar'>|</span>",
+      waitUntilVisible: true,
+      afterComplete: () => {
         quoteIndex = (quoteIndex + 1) % quotes.length;
         typeNextQuote();
-      })
-      .go();
+      }
+    }).go();
   }
 
   typeNextQuote();
@@ -97,10 +94,10 @@ onUnmounted(() => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientFlow 10s ease infinite;
-  letter-spacing: 1.5px; /* 紧凑一些 */
+  letter-spacing: 1.5px;
   font-family: "STZhongsong", "华文中宋", serif;
-  font-size: 30px; /* 稍大更醒目 */
-  font-weight: 1000; /* 极粗 */
+  font-size: 30px;
+  font-weight: 900;
   text-shadow: 1px 1px 1.2px rgba(0,0,0,0.25);
 }
 
