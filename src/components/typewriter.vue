@@ -34,7 +34,7 @@ function initializeTypeIt(quotes) {
     strings: [quotes[quotesIndex]],  // 当前语录
     cursorChar: "<span class='cursorChar'>|</span>",  // 光标样式
     speed: 100,  // 打字速度
-    deleteSpeed: 50,  // 删除速度
+    deleteSpeed: 60,  // 删除速度，逐字删除的速度
     deleteDelay: 500,  // 删除延迟
     lifeLike: true,  // 模拟真人打字
     breakLines: false,  // 不换行
@@ -46,7 +46,6 @@ function initializeTypeIt(quotes) {
         initializeTypeIt(quotes);  // 刷新并播放下一条语录
       }, 500);
     },
-    deleteDelay: 500, // 删除操作的延迟时间
   }).go();
 }
 
@@ -111,7 +110,7 @@ onUnmounted(() => {
   letter-spacing: 2px;
   font-family: "STKaiti", "华文正楷", serif; /* 华文正楷字体 */
   font-size: 28px;
-  font-weight: bolder; /* 加粗字体 */
+  font-weight: 900; /* 强化字体加粗 */
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25); /* 文字阴影效果 */
 }
 
