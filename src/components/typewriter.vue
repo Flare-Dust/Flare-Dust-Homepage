@@ -76,18 +76,18 @@ onUnmounted(() => {
 
 <style scoped>
 .msg, .qm {
-  color: #0000FF; /* 蓝色 */
+  color: #ADD8E6; /* 浅蓝色 */
   letter-spacing: 2px;
   font-family: "华文中宋", serif;
   font-size: 25px;
-  font-weight: bold;
+  font-weight: 900; /* 增加字体粗细 */
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .msg ::v-deep.cursorChar {
   display: inline-block;
   margin-left: 2px;
-  color: #0000FF; /* 蓝色 */
+  color: #ADD8E6; /* 浅蓝色 */
 }
 
 @media screen and (min-width: 960px) and (max-width: 1200px) {
