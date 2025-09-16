@@ -12,7 +12,9 @@ import TypeIt from "typeit";
 
 const text = ref(null);
 let typeItInstance = null;
+let quotesIndex = 0; // 当前语录索引
 
+// 备用语录
 const fallbackQuotes = [
   "星辰大海，永不止步",
   "未来可期，光芒万丈",
@@ -24,24 +26,24 @@ const fallbackQuotes = [
 // 初始化打字效果
 function initializeTypeIt(quotes) {
   if (typeItInstance) {
-    typeItInstance.destroy();
+    typeItInstance.destroy();  // 销毁现有实例，避免干扰
     text.value.innerHTML = ""; // 清空之前的内容
   }
 
   typeItInstance = new TypeIt(text.value, {
-    strings: quotes,          // 语录数组
+    strings: [quotes[quotesIndex]],   // 显示当前语录
     cursorChar: "<span class='cursorChar'>|</span>", // 光标样式
-    speed: 100,               // 打字速度
-    deleteSpeed: 70,          // 删除速度
-    lifeLike: true,           // 模拟真人打字效果
-    breakLines: false,        // 不自动换行
-    loop: false,              // 不循环
-    afterStringTyped: () => { 
-      // 在当前语录播放完毕后切换到下一条
+    speed: 100,                      // 打字速度
+    deleteSpeed: 70,                 // 删除速度
+    lifeLike: true,                  // 模拟真人打字效果
+    breakLines: false,               // 不自动换行
+    loop: false,                     // 不循环
+    afterStringTyped: () => {        // 当当前语录播放完成
+      // 延迟500ms后更新为下一条语录
       setTimeout(() => {
-        const nextQuoteIndex = (quotes.indexOf(typeItInstance.strings[0]) + 1) % quotes.length; // 自动循环切换
-        initializeTypeIt([quotes[nextQuoteIndex]]);
-      }, 500); // 延迟500ms后切换到下一条语录
+        quotesIndex = (quotesIndex + 1) % quotes.length; // 切换到下一条语录
+        initializeTypeIt(quotes); // 重新初始化 TypeIt 实例并传入新语录
+      }, 500); // 延迟500ms后再进行切换
     }
   }).go();
 }
@@ -68,7 +70,8 @@ onMounted(async () => {
 
   // 如果API失败，则使用备用语录
   if (quotes.length === 0) quotes.push(...fallbackQuotes);
-  
+
+  // 启动打字效果
   initializeTypeIt(quotes);
 });
 
