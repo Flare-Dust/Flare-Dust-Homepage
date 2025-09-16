@@ -1,5 +1,5 @@
 <template>
-  <div class="DazzlingDust-typewriter" style="text-align: center;">
+  <div class="Flare-Dust-typewriter" style="text-align: center;">
     <span class="qm">“ </span><span ref="text" class="msg"></span><span class="qm"> ”</span>
   </div>
 </template>
@@ -10,6 +10,7 @@ import TypeIt from "typeit";
 
 const text = ref(null);
 let typeItInstance = null;
+let quotes = []; // 用来存储语录
 
 // 🔹 备用语录数组（API 挂了时使用）
 const fallbackQuotes = [
@@ -21,12 +22,13 @@ const fallbackQuotes = [
 ];
 
 // 初始化打字效果
-function initializeTypeIt(quotes) {
+function initializeTypeIt() {
   if (typeItInstance) {
     typeItInstance.destroy();  // 销毁上一个实例
     text.value.innerHTML = ""; // 清空文本内容
   }
 
+  // 每次从新的语录中开始打字
   typeItInstance = new TypeIt(text.value, {
     strings: quotes,          // 显示语录
     cursorChar: "<span class='cursorChar'>|</span>", // 光标样式
@@ -34,11 +36,14 @@ function initializeTypeIt(quotes) {
     deleteSpeed: 70,          // 删除速度
     lifeLike: true,           // 模拟真人打字效果
     breakLines: false,        // 不自动换行
-    loop: true,               // 循环显示语录
+    loop: false,              // 只显示一次
     afterStringTyped: () => {
       setTimeout(() => {
         // 逐字删除并切换到下一条语录
         typeItInstance.reset().delete().go();
+        setTimeout(() => {
+          loadNextQuote(); // 加载下一个语录
+        }, 1000); // 延迟后切换语录
       }, 500); // 延迟删除
     }
   }).go();
@@ -55,22 +60,21 @@ async function fetchQuote() {
   }
 }
 
-onMounted(async () => {
-  const quotes = [];
-
-  // 获取 5 条语录
-  for (let i = 0; i < 5; i++) {
-    const q = await fetchQuote();
-    if (q) quotes.push(q);
+// 加载下一条语录
+async function loadNextQuote() {
+  const newQuote = await fetchQuote();
+  if (newQuote) {
+    quotes = [newQuote]; // 只显示一条新语录
+    initializeTypeIt();  // 重新初始化打字效果
+  } else {
+    // 如果获取不到新语录，使用备用语录
+    quotes = [fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)]];
+    initializeTypeIt();  // 重新初始化打字效果
   }
+}
 
-  // 如果 API 请求失败，使用备用语录
-  if (quotes.length === 0) {
-    quotes.push(...fallbackQuotes);
-  }
-
-  // 初始化打字效果
-  initializeTypeIt(quotes);
+onMounted(() => {
+  loadNextQuote(); // 初始化加载第一个语录
 });
 
 onUnmounted(() => {
@@ -94,7 +98,7 @@ onUnmounted(() => {
 .msg ::v-deep.cursorChar {
   display: inline-block;
   margin-left: 2px;
-  color: #00CED1;
+  color: #00CED1; /* 光标颜色 */
 }
 
 @media screen and (min-width: 960px) and (max-width: 1200px) {
