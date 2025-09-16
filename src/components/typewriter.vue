@@ -26,61 +26,51 @@ const fallbackQuotes = [
 // 初始化打字效果
 function initializeTypeIt(quotes) {
   if (typeItInstance) {
-    typeItInstance.destroy(); // 销毁旧的实例
+    typeItInstance.destroy(); // 销毁旧实例
   }
 
-  // 创建新的打字效果实例
   typeItInstance = new TypeIt(text.value, {
-    strings: [quotes[quotesIndex]],  // 当前语录
-    cursorChar: "<span class='cursorChar'>|</span>",  // 光标样式
-    speed: 100,  // 打字速度
-    deleteSpeed: 60,  // 删除速度，逐字删除的速度
-    deleteDelay: 500,  // 删除延迟
-    lifeLike: true,  // 模拟真人打字
-    breakLines: false,  // 不换行
-    loop: false,  // 不循环
+    strings: [quotes[quotesIndex]],
+    cursorChar: "<span class='cursorChar'>|</span>",
+    speed: 100,
+    deleteSpeed: 60,
+    deleteDelay: 500,
+    lifeLike: true,
+    breakLines: false,
+    loop: false,
     afterStringTyped: () => {
-      // 当前语录播放完后，等待500ms后自动切换
       setTimeout(() => {
-        quotesIndex = (quotesIndex + 1) % quotes.length;  // 更新语录索引
-        initializeTypeIt(quotes);  // 刷新并播放下一条语录
+        quotesIndex = (quotesIndex + 1) % quotes.length;
+        initializeTypeIt(quotes);
       }, 500);
     },
   }).go();
 }
 
-// 获取单条语录（来自 API）
+// 获取单条语录（API）
 async function fetchQuote() {
   try {
     const response = await fetch("https://v1.hitokoto.cn/?encode=json");
     const data = await response.json();
-    return data.hitokoto || data.text || null; // 获取语录
+    return data.hitokoto || data.text || null;
   } catch {
-    return null;  // API失败时返回空值
+    return null;
   }
 }
 
-// 页面加载时获取语录并初始化
 onMounted(async () => {
   const quotes = [];
-  
-  // 获取5条语录
   for (let i = 0; i < 5; i++) {
     const q = await fetchQuote();
     if (q) quotes.push(q);
   }
-
-  // 如果API失败，则使用备用语录
   if (quotes.length === 0) quotes.push(...fallbackQuotes);
-
-  // 启动打字效果
   initializeTypeIt(quotes);
 });
 
-// 页面卸载时销毁打字实例
 onUnmounted(() => {
   if (typeItInstance) {
-    typeItInstance.destroy(); // 销毁实例
+    typeItInstance.destroy();
     typeItInstance = null;
   }
 });
@@ -92,29 +82,25 @@ onUnmounted(() => {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
-/* 光标闪烁动画 */
 @keyframes cursorBlink {
   0% { opacity: 1; }
   50% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-/* 文本样式和渐变动画 */
 .msg, .qm {
   background: linear-gradient(90deg, #00CED1, #1E90FF, #00CED1);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientFlow 8s ease infinite; /* 渐变流动效果 */
+  animation: gradientFlow 8s ease infinite;
   letter-spacing: 2px;
-  font-family: "STKaiti", "华文正楷", serif; /* 华文正楷字体 */
+  font-family: "STZhongsong", "华文中宋", serif; /* 华文中宋 */
   font-size: 28px;
-  font-weight: 900; /* 强化字体加粗 */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25); /* 文字阴影效果 */
+  font-weight: 900; /* 加粗 */
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.3); /* 增强粗感 */
 }
 
-/* 光标样式与渐变动画 */
 .msg ::v-deep .cursorChar {
   display: inline-block;
   margin-left: 2px;
@@ -128,7 +114,6 @@ onUnmounted(() => {
 @media screen and (min-width: 960px) and (max-width: 1200px) {
   .msg, .qm { font-size: 20px; }
 }
-
 @media (max-width: 960px) {
   .Flare-Dust-typewriter { min-height: 76px; }
   .msg, .qm { font-size: 16px; animation: gradientFlow 5s ease infinite; }
