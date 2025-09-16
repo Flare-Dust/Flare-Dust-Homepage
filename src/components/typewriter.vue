@@ -35,7 +35,8 @@ function initializeTypeIt(quotes) {
     strings: [quotes[quotesIndex]], // 当前语录
     cursorChar: "<span class='cursorChar'>|</span>", // 光标样式
     speed: 100,                      // 打字速度
-    deleteSpeed: 70,                 // 删除速度
+    deleteSpeed: 50,                 // 删除速度
+    deleteDelay: 500,                // 删除延迟
     lifeLike: true,                  // 模拟真人打字效果
     breakLines: false,               // 不自动换行
     loop: false,                     // 不循环
@@ -43,7 +44,7 @@ function initializeTypeIt(quotes) {
       setTimeout(() => {
         // 更新语录索引
         quotesIndex = (quotesIndex + 1) % quotes.length;
-        initializeTypeIt(quotes); // 重新初始化
+        initializeTypeIt(quotes); // 重新初始化并加载下一条语录
       }, 500); // 延迟500ms后切换
     },
     // 删除效果
