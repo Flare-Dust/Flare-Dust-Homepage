@@ -25,25 +25,26 @@ const fallbackQuotes = [
 
 // 初始化打字效果
 function initializeTypeIt(quotes) {
+  // 如果已有 TypeIt 实例则销毁
   if (typeItInstance) {
-    typeItInstance.destroy();  // 销毁现有实例，避免干扰
-    text.value.innerHTML = ""; // 清空之前的内容
+    typeItInstance.destroy();
   }
 
+  // 创建新的 TypeIt 实例
   typeItInstance = new TypeIt(text.value, {
-    strings: [quotes[quotesIndex]],   // 显示当前语录
+    strings: [quotes[quotesIndex]], // 当前语录
     cursorChar: "<span class='cursorChar'>|</span>", // 光标样式
     speed: 100,                      // 打字速度
     deleteSpeed: 70,                 // 删除速度
     lifeLike: true,                  // 模拟真人打字效果
     breakLines: false,               // 不自动换行
     loop: false,                     // 不循环
-    afterStringTyped: () => {        // 当当前语录播放完成
-      // 延迟500ms后更新为下一条语录
+    afterStringTyped: () => {        // 当前语录播放完后切换
       setTimeout(() => {
-        quotesIndex = (quotesIndex + 1) % quotes.length; // 切换到下一条语录
-        initializeTypeIt(quotes); // 重新初始化 TypeIt 实例并传入新语录
-      }, 500); // 延迟500ms后再进行切换
+        // 更新语录索引
+        quotesIndex = (quotesIndex + 1) % quotes.length;
+        initializeTypeIt(quotes); // 重新初始化
+      }, 500); // 延迟500ms后切换
     }
   }).go();
 }
