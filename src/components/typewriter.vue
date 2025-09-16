@@ -24,7 +24,6 @@ const fallbackQuotes = [
 let quotes = [];
 let quoteIndex = 0;
 
-// 🔹 获取 API 语录
 async function fetchQuote() {
   try {
     const res = await fetch("https://v1.hitokoto.cn/?encode=json");
@@ -35,7 +34,6 @@ async function fetchQuote() {
   }
 }
 
-// 🔹 初始化语录数组
 async function loadQuotes() {
   for (let i = 0; i < 5; i++) {
     const q = await fetchQuote();
@@ -44,26 +42,25 @@ async function loadQuotes() {
   if (quotes.length === 0) quotes.push(...fallbackQuotes);
 }
 
-// 🔹 开始打字效果
+// 初始化TypeIt并开始打字
 function startTyping() {
-  function typeNextQuote() {
-    if (!text.value) return;
+  if (typeItInstance) typeItInstance.destroy();  // 确保销毁旧实例
 
-    typeItInstance = new TypeIt(text.value, {
-      strings: [quotes[quoteIndex]],
-      speed: 100,
-      deleteSpeed: 60,
-      lifeLike: true,
-      cursorChar: "<span class='cursorChar'>|</span>",
-      waitUntilVisible: true,
-      afterComplete: () => {
+  typeItInstance = new TypeIt(text.value, {
+    strings: [quotes[quoteIndex]],
+    speed: 100,
+    deleteSpeed: 60,
+    lifeLike: true,
+    cursorChar: "<span class='cursorChar'>|</span>",
+    waitUntilVisible: true,
+    afterStringTyped: () => {
+      setTimeout(() => {
         quoteIndex = (quoteIndex + 1) % quotes.length;
-        typeNextQuote();
-      }
-    }).go();
-  }
-
-  typeNextQuote();
+        typeItInstance.reset().delete().go(); // 删除之前的内容，进行新的打字
+        startTyping(); // 开始下一个语录的打字
+      }, 500);
+    },
+  }).go();
 }
 
 onMounted(async () => {
@@ -72,7 +69,10 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-  if (typeItInstance) typeItInstance.destroy();
+  if (typeItInstance) {
+    typeItInstance.destroy(); // 销毁实例
+    typeItInstance = null;
+  }
 });
 </script>
 
@@ -82,25 +82,28 @@ onUnmounted(() => {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
 @keyframes cursorBlink {
   0% { opacity: 1; }
   50% { opacity: 0; }
   100% { opacity: 1; }
 }
 
+/* 设置文本样式和渐变动画 */
 .msg, .qm {
   background: linear-gradient(90deg, #00CED1, #1E90FF, #00CED1);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientFlow 10s ease infinite;
-  letter-spacing: 1.5px;
-  font-family: "STZhongsong", "华文中宋", serif;
+  animation: gradientFlow 10s ease infinite; /* 渐变流动效果 */
+  letter-spacing: 1.5px; /* 字距 */
+  font-family: "STZhongsong", "华文中宋", serif; /* 华文中宋字体 */
   font-size: 30px;
-  font-weight: 900;
-  text-shadow: 1px 1px 1.2px rgba(0,0,0,0.25);
+  font-weight: 900; /* 加粗 */
+  text-shadow: 1px 1px 1.2px rgba(0, 0, 0, 0.25); /* 文字阴影效果 */
 }
 
+/* 设置光标样式与渐变动画 */
 .msg ::v-deep .cursorChar {
   display: inline-block;
   margin-left: 2px;
@@ -114,6 +117,7 @@ onUnmounted(() => {
 @media screen and (min-width: 960px) and (max-width: 1200px) {
   .msg, .qm { font-size: 22px; }
 }
+
 @media (max-width: 960px) {
   .Flare-Dust-typewriter { min-height: 80px; }
   .msg, .qm { font-size: 18px; animation: gradientFlow 7s ease infinite; }
