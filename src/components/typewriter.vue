@@ -45,7 +45,9 @@ function initializeTypeIt(quotes) {
         quotesIndex = (quotesIndex + 1) % quotes.length;
         initializeTypeIt(quotes); // 重新初始化
       }, 500); // 延迟500ms后切换
-    }
+    },
+    // 删除效果
+    deleteDelay: 500,               // 删除延迟
   }).go();
 }
 
