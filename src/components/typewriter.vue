@@ -1,7 +1,7 @@
 <template>
   <div class="Flare-Dust-typewriter" style="text-align: center;">
     <span class="qm">“ </span>
-    <span ref="text" class="msg fade-text"></span>
+    <span ref="text" class="msg"></span>
     <span class="qm"> ”</span>
   </div>
 </template>
@@ -35,16 +35,13 @@ function initializeTypeIt(quotes) {
     deleteSpeed: 70,          // 删除速度
     lifeLike: true,           // 模拟真人打字效果
     breakLines: false,        // 不自动换行
-    loop: true,               // 循环打字
-    beforeString: () => {
-      text.value.classList.remove("fade-in");
-      text.value.classList.add("fade-out"); // 文本切换时淡出效果
-    },
-    afterString: () => {
+    loop: false,              // 不循环
+    afterStringTyped: () => { 
+      // 在当前语录播放完毕后切换到下一条
       setTimeout(() => {
-        text.value.classList.remove("fade-out");
-        text.value.classList.add("fade-in"); // 文本切换后淡入效果
-      }, 150);
+        const nextQuoteIndex = (quotes.indexOf(typeItInstance.strings[0]) + 1) % quotes.length; // 自动循环切换
+        initializeTypeIt([quotes[nextQuoteIndex]]);
+      }, 500); // 延迟500ms后切换到下一条语录
     }
   }).go();
 }
@@ -122,11 +119,6 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   animation: gradientFlow 6s linear infinite, cursorBlink 1s step-start infinite;
 }
-
-/* 文本淡入淡出效果 */
-.fade-text { transition: opacity 0.8s ease; }
-.fade-in { opacity: 1; }
-.fade-out { opacity: 0; }
 
 @media screen and (min-width: 960px) and (max-width: 1200px) {
   .msg, .qm { font-size: 20px; }
