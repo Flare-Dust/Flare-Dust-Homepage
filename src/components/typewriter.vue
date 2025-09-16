@@ -1,5 +1,5 @@
 <template>
-  <div class="DazzlingDust-typewriter" style="text-align: center;">
+  <div class="Flare-Dust-typewriter" style="text-align: center;">
     <span class="qm">“ </span><span ref="text" class="msg"></span><span class="qm"> ”</span>
   </div>
 </template>
