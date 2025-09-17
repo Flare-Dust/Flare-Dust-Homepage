@@ -53,9 +53,9 @@ const config = {
 
 	//社交按钮 - 使用Iconify图标
 	socialPlatformIcons: [
-		{ icon: "line-md:github-loop", link: "https://github.com/Flare-Dust" },
-		{ icon: "line-md:email", link: "mailto:DazzlingDust886@foxmail.com" },
-		{ icon: "line-md:telegram", link: "https://t.me/Shining_Dust" },
+		{ icon: "mingcute:github-line", link: "https://github.com/Flare-Dust" },
+		{ icon: "mage:email", link: "mailto:DazzlingDust886@foxmail.com" },
+		{ icon: "hugeicons:telegram", link: "https://t.me/Shining_Dust" },
 		{ icon: "simple-icons:bilibili", link: "https://m.bilibili.com/space/3546706436164078" },
 		{ icon: "iconamoon:lightning-1-light", link: "https://afdian.com/a/Shining_Dust" },
 	],
