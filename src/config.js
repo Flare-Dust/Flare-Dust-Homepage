@@ -136,7 +136,7 @@ const config = {
                 ],
         },
 
-	//项目卡片 其中 字段"show"控制初始卡片的text是否展开
+	//项目卡片 字段"show"控制初始卡片的text是否展开
 	projectcards: [
 		{ go: "🚀 前往", img: "http://q.qlogo.cn/headimg_dl?dst_uin=1246663835&spec=640&img_type=jpg", title: "Github's home page", subtitle: "The first work！", text: "If you see this line, I've managed to get your attention.", url: "https://github.com/DazzlingDust/DazzlingDust", show: false },
 		{ go: "📸 前往", img: "https://t.mwm.moe/pc", title: "To be developed 2", subtitle: "The second work！", text: "If you see this line, I've managed to get your attention.", url: "https://DazzlingDust.xyz", show: false },
