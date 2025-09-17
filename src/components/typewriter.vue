@@ -1,69 +1,274 @@
 <template>
-  <div class="Flare-Dust-typewriter" style="text-align: center;">
-    <span class="qm">“ </span><span ref="text" class="msg"></span><span class="qm"> ”</span>
-  </div>
+    <div class="DazzlingDust-typewriter" style="text-align: center;"><span class="qm">“ </span><span ref="text" class="msg"></span><span class="qm"> ”</span></div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import TypeIt from 'typeit'
-import config from '../config.js';  // 引入外部配置（如果有）
 
 const text = ref(null)
+let typeItInstance = null
+let updateTimer = null // 用于去抖动更新
+let displayedQuotes = new Set() // 记录已经显示过的语录
+let backgroundQuotes = [] // 后台静默获取的语录，不主动显示
 
-onMounted(() => {
-  let configdata = null;
-  
-  // 获取外部配置
-  if (import.meta.env.VITE_CONFIG) {
-    configdata = JSON.parse(import.meta.env.VITE_CONFIG);
-  } else {
-    configdata = config;  // 默认配置
-  }
+// API获取成功前不显示任何内容，等待获取完成后直接显示结果
 
-  // 初始化打字效果
-  new (TypeIt)(text.value, {
-    strings: configdata.typeWriterStrings, // 循环显示语录
-    cursorChar: "<span class='cursorChar' style='font-size: 26px;color: #00CED1;'>|</span>", // 光标字符
-    speed: 100,            // 打字速度
-    deleteSpeed: 70,       // 删除速度
-    lifeLike: true,        // 模拟真人打字
-    cursor: true,          // 显示光标
-    breakLines: false,     // 不换行
-    loop: true,            // 循环显示
-  }).go()
+// 初始化TypeIt打字效果 - 用于首次显示
+function initializeTypeIt(quotes, isFirstTime = true) {
+    // 如果已有实例，先销毁
+    if (typeItInstance) {
+        typeItInstance.destroy();
+        text.value.innerHTML = ''; // 清空内容
+    }
+    
+    console.log(`🎯 ${isFirstTime ? '初始化' : '更新'}打字效果，共${quotes.length}条语录`);
+    
+    // 判断是否是错误信息
+    const isError = quotes.length === 1 && (quotes[0].includes('失败') || quotes[0].includes('错误'));
+    
+    if (!isError && isFirstTime) {
+        // 记录首次显示的语录
+        quotes.forEach(quote => displayedQuotes.add(quote));
+        console.log(`📝 记录已显示语录，当前已显示${displayedQuotes.size}条`);
+    }
+    
+    typeItInstance = new TypeIt(text.value, {
+        strings: quotes,
+        cursorChar: "<span class='cursorChar' style='font-size: 26px;color: var(--DazzlingDust-vcard-color);'>|<span>",
+        speed: isError ? 100 : 150, // 错误信息打字更快
+        lifeLike: true,
+        cursor: true,
+        breakLines: false,
+        loop: !isError, // 错误信息不循环，语录正常循环
+    }).go();
+}
+
+// 静默存储后台获取的语录，不打断当前显示
+function storeBackgroundQuotes(allQuotes) {
+    // 筛选出未显示过的新语录
+    const newQuotes = allQuotes.filter(quote => !displayedQuotes.has(quote));
+    
+    if (newQuotes.length === 0) {
+        console.log('📝 后台无新语录');
+        return;
+    }
+    
+    // 静默存储新语录，不打断当前显示
+    backgroundQuotes = allQuotes.slice(); // 保存完整的语录列表
+    console.log(`📚 后台静默获取完成，新增${newQuotes.length}条语录 (总共${backgroundQuotes.length}条可用)`);
+    console.log('👁️ 当前显示不会被打断，后台语录已准备就绪');
+    console.log('💡 提示：刷新页面可获得包含新语录的完整体验');
+}
+
+// 可选：手动切换到后台语录（当前未使用，但保留扩展性）
+function switchToBackgroundQuotes() {
+    if (backgroundQuotes.length === 0) {
+        console.log('📝 没有后台语录可供切换');
+        return;
+    }
+    
+    const newQuotes = backgroundQuotes.filter(quote => !displayedQuotes.has(quote));
+    if (newQuotes.length === 0) {
+        console.log('📝 没有新的后台语录');
+        return;
+    }
+    
+    console.log(`🔄 手动切换到后台语录，${newQuotes.length}条新内容`);
+    newQuotes.forEach(quote => displayedQuotes.add(quote));
+    initializeTypeIt(newQuotes, false);
+}
+
+// 获取一批语录（每批最多5条）
+async function fetchBatch(batchSize = 5) {
+    const quotes = [];
+    
+    try {
+        console.log(`📦 获取${batchSize}条语录...`);
+        
+        for (let i = 0; i < batchSize; i++) {
+            try {
+                const response = await fetch('https://api.mir6.com/api/yulu', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                const data = JSON.parse(text);
+                
+                if (data && data.text) {
+                    quotes.push(data.text);
+                    console.log(`✅ 获取: "${data.text}"`);
+                }
+                
+                // 批内延迟
+                if (i < batchSize - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+                
+            } catch (fetchError) {
+                console.error(`❌ 单条获取失败:`, fetchError);
+                continue;
+            }
+        }
+        
+    } catch (error) {
+        console.error('❌ 批次获取错误:', error);
+    }
+    
+    return quotes;
+}
+
+// 渐进式获取语录 - 第一批获取后立即显示，后续批次在后台继续
+async function fetchQuotesProgressively(onFirstBatch, onUpdate, maxBatches = 10) {
+    const allQuotes = [];
+    const batchSize = 5; // 每次最多5条
+    let consecutiveFailures = 0;
+    const maxConsecutiveFailures = 2;
+    let firstBatchDisplayed = false;
+    
+    console.log(`🎯 开始渐进式获取语录，每批次${batchSize}条，最多${maxBatches}批次`);
+    
+    for (let batch = 0; batch < maxBatches; batch++) {
+        console.log(`📦 第${batch + 1}批次`);
+        
+        const batchQuotes = await fetchBatch(batchSize);
+        
+        if (batchQuotes.length > 0) {
+            allQuotes.push(...batchQuotes);
+            consecutiveFailures = 0;
+            console.log(`✅ 已累计获取 ${allQuotes.length} 条语录`);
+            
+            // 第一批获取成功后立即显示
+            if (!firstBatchDisplayed) {
+                console.log(`🚀 第一批获取成功，立即显示${allQuotes.length}条语录`);
+                onFirstBatch(allQuotes.slice()); // 传递副本
+                firstBatchDisplayed = true;
+            } else {
+                // 后续批次获取成功后更新显示
+                console.log(`🔄 更新显示，现有${allQuotes.length}条语录`);
+                onUpdate(allQuotes.slice()); // 传递副本
+            }
+            
+            // 批次间隔
+            if (batch < maxBatches - 1) {
+                console.log('⏳ 批次间隔500ms...');
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        } else {
+            consecutiveFailures++;
+            console.warn(`⚠️ 第${batch + 1}批次获取失败 (连续失败${consecutiveFailures}次)`);
+            
+            // 如果第一批就失败了，返回错误
+            if (!firstBatchDisplayed && batch === 0) {
+                console.warn('❌ 第一批获取失败，返回错误');
+                return false;
+            }
+            
+            // 连续失败太多次就停止
+            if (consecutiveFailures >= maxConsecutiveFailures) {
+                console.warn(`⚠️ 连续${maxConsecutiveFailures}批次失败，停止后续获取`);
+                break;
+            }
+            
+            // 失败后稍微等待再重试
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    }
+    
+    console.log(`🎉 渐进式获取完成，总共获取${allQuotes.length}条语录`);
+    return firstBatchDisplayed;
+}
+
+onMounted(async () => {
+    console.log('🚀 开始渐进式获取API语录...');
+    
+    // 第一批获取成功的回调 - 立即显示
+    const handleFirstBatch = (quotes) => {
+        console.log(`🎬 第一批语录显示，共${quotes.length}条`);
+        initializeTypeIt(quotes, true); // 标记为首次显示
+    };
+    
+    // 后续批次获取成功的回调 - 静默存储，不打断当前显示
+    const handleUpdate = (allQuotes) => {
+        console.log(`📥 后台获取到更多语录，共${allQuotes.length}条`);
+        
+        // 静默存储，不打断当前显示的内容
+        storeBackgroundQuotes(allQuotes);
+        
+        console.log('🔇 后续批次已静默处理，不会打断当前打字效果');
+    };
+    
+    try {
+        // 使用渐进式获取
+        const success = await fetchQuotesProgressively(handleFirstBatch, handleUpdate);
+        
+        if (!success) {
+            console.warn('⚠️ 第一批语录获取失败，显示错误提示');
+            const errorQuote = ["API获取失败，请稍后刷新页面重试"];
+            initializeTypeIt(errorQuote);
+        }
+    } catch (error) {
+        console.error('❌ API获取出现异常:', error);
+        const errorQuote = ["网络错误，请检查网络连接后刷新页面"];
+        initializeTypeIt(errorQuote);
+    }
 })
+
+// 组件销毁时清理TypeIt实例和相关数据
+onUnmounted(() => {
+    if (typeItInstance) {
+        console.log('🧹 清理TypeIt实例');
+        typeItInstance.destroy();
+        typeItInstance = null;
+    }
+    
+    if (updateTimer) {
+        console.log('🧹 清理更新定时器');
+        clearTimeout(updateTimer);
+        updateTimer = null;
+    }
+    
+    // 清理语录相关数据
+    console.log('🧹 清理语录相关数据');
+    displayedQuotes.clear();
+    backgroundQuotes = [];
+})
+
 </script>
-
+ 
 <style scoped>
-.msg, .qm {
-  color: #00CED1; /* 蓝青色 */
-  letter-spacing: 2px;
-  font-family: "华文中宋", serif; /* 字体设置为华文中宋 */
-  font-size: 25px;
-  font-weight: bold; /* 加粗 */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+.msg, .qm{
+    color: var(--DazzlingDust-vcard-color);
+    letter-spacing: 2px;
+    font-family: Arial, sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
-
+ 
 .msg ::v-deep.cursorChar {
-  display: inline-block;
-  margin-left: 2px;
-  color: #00CED1; /* 光标颜色 */
+    display: inline-block;
+    margin-left: 2px;
 }
-
-@media screen and (min-width: 960px) and (max-width: 1200px) {
-  .msg, .qm {
-    font-size: 20px;
-  }
+@media screen and (min-width: 960px) and (max-width: 1200px)  {
+    .msg, .qm{
+        font-size: 20px;
+    }
 }
-
-@media (max-width: 960px) {
-  .Flare-Dust-typewriter {
-    min-height: 76px;
-  }
-
-  .msg, .qm {
-    font-size: 16px;
-  }
+@media (max-width: 960px){
+    .DazzlingDust-typewriter{
+        min-height: 76px;   
+    }
+    .msg, .qm{
+        font-size: 16px;
+    }
 }
 </style>
