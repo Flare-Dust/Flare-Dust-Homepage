@@ -1,5 +1,5 @@
 <template>
-    <div class="DazzlingDust-typewriter" style="text-align: center;"><span class="qm">“ </span><span ref="text" class="msg"></span><span class="qm"> ”</span></div>
+    <div class="Flare-Dust-typewriter" style="text-align: center;"><span class="qm">“ </span><span ref="text" class="msg"></span><span class="qm"> ”</span></div>
 </template>
 
 <script setup>
@@ -35,7 +35,7 @@ function initializeTypeIt(quotes, isFirstTime = true) {
     
     typeItInstance = new TypeIt(text.value, {
         strings: quotes,
-        cursorChar: "<span class='cursorChar' style='font-size: 26px;color: var(--DazzlingDust-vcard-color);'>|<span>",
+        cursorChar: "<span class='cursorChar' style='font-size: 26px;color: var(--Flare-Dust-vcard-color);'>|<span>",
         speed: isError ? 100 : 150, // 错误信息打字更快
         lifeLike: true,
         cursor: true,
@@ -246,7 +246,7 @@ onUnmounted(() => {
  
 <style scoped>
 .msg, .qm{
-    color: var(--DazzlingDust-vcard-color);
+    color: var(--Flare-Dust-vcard-color);
     letter-spacing: 2px;
     font-family: Arial, sans-serif;
     font-size: 25px;
@@ -264,7 +264,7 @@ onUnmounted(() => {
     }
 }
 @media (max-width: 960px){
-    .DazzlingDust-typewriter{
+    .Flare-Dust-typewriter{
         min-height: 76px;   
     }
     .msg, .qm{
