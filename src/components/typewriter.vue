@@ -16,64 +16,51 @@ let backgroundQuotes = [] // 后台静默获取的语录，不主动显示
 
 // 初始化TypeIt打字效果 - 用于首次显示
 function initializeTypeIt(quotes, isFirstTime = true) {
-    // 如果已有实例，先销毁
     if (typeItInstance) {
         typeItInstance.destroy();
-        text.value.innerHTML = ''; // 清空内容
+        text.value.innerHTML = '';
     }
-    
     console.log(`🎯 ${isFirstTime ? '初始化' : '更新'}打字效果，共${quotes.length}条语录`);
-    
-    // 判断是否是错误信息
     const isError = quotes.length === 1 && (quotes[0].includes('失败') || quotes[0].includes('错误'));
-    
     if (!isError && isFirstTime) {
-        // 记录首次显示的语录
         quotes.forEach(quote => displayedQuotes.add(quote));
         console.log(`📝 记录已显示语录，当前已显示${displayedQuotes.size}条`);
     }
-    
     typeItInstance = new TypeIt(text.value, {
         strings: quotes,
         cursorChar: "<span class='cursorChar' style='font-size: 26px;color: var(--Flare-Dust-vcard-color);'>|<span>",
-        speed: isError ? 100 : 150, // 错误信息打字更快
+        speed: isError ? 100 : 150,
         lifeLike: true,
         cursor: true,
         breakLines: false,
-        loop: !isError, // 错误信息不循环，语录正常循环
+        loop: !isError,
     }).go();
 }
 
-// 静默存储后台获取的语录，不打断当前显示
+// 静默存储后台获取的语录
 function storeBackgroundQuotes(allQuotes) {
-    // 筛选出未显示过的新语录
     const newQuotes = allQuotes.filter(quote => !displayedQuotes.has(quote));
-    
     if (newQuotes.length === 0) {
         console.log('📝 后台无新语录');
         return;
     }
-    
-    // 静默存储新语录，不打断当前显示
-    backgroundQuotes = allQuotes.slice(); // 保存完整的语录列表
+    backgroundQuotes = allQuotes.slice();
     console.log(`📚 后台静默获取完成，新增${newQuotes.length}条语录 (总共${backgroundQuotes.length}条可用)`);
     console.log('👁️ 当前显示不会被打断，后台语录已准备就绪');
     console.log('💡 提示：刷新页面可获得包含新语录的完整体验');
 }
 
-// 可选：手动切换到后台语录（当前未使用，但保留扩展性）
+// 手动切换后台语录（备用）
 function switchToBackgroundQuotes() {
     if (backgroundQuotes.length === 0) {
         console.log('📝 没有后台语录可供切换');
         return;
     }
-    
     const newQuotes = backgroundQuotes.filter(quote => !displayedQuotes.has(quote));
     if (newQuotes.length === 0) {
         console.log('📝 没有新的后台语录');
         return;
     }
-    
     console.log(`🔄 手动切换到后台语录，${newQuotes.length}条新内容`);
     newQuotes.forEach(quote => displayedQuotes.add(quote));
     initializeTypeIt(newQuotes, false);
@@ -82,82 +69,64 @@ function switchToBackgroundQuotes() {
 // 获取一批语录（每批最多5条）
 async function fetchBatch(batchSize = 5) {
     const quotes = [];
-    
     try {
         console.log(`📦 获取${batchSize}条语录...`);
-        
         for (let i = 0; i < batchSize; i++) {
             try {
-                const response = await fetch('https://api.mir6.com/api/yulu', {
+                const response = await fetch('https://v1.hitokoto.cn/?encode=json', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json, text/plain, */*',
                         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
                     }
                 });
-                
                 if (!response.ok) {
                     throw new Error(`HTTP Error: ${response.status}`);
                 }
-                
                 const text = await response.text();
                 const data = JSON.parse(text);
-                
-                if (data && data.text) {
-                    quotes.push(data.text);
-                    console.log(`✅ 获取: "${data.text}"`);
+                if (data && data.hitokoto) {
+                    const quote = data.from ? `${data.hitokoto} ——「${data.from}」` : data.hitokoto;
+                    quotes.push(quote);
+                    console.log(`✅ 获取: "${quote}"`);
                 }
-                
-                // 批内延迟
                 if (i < batchSize - 1) {
                     await new Promise(resolve => setTimeout(resolve, 200));
                 }
-                
             } catch (fetchError) {
                 console.error(`❌ 单条获取失败:`, fetchError);
                 continue;
             }
         }
-        
     } catch (error) {
         console.error('❌ 批次获取错误:', error);
     }
-    
     return quotes;
 }
 
-// 渐进式获取语录 - 第一批获取后立即显示，后续批次在后台继续
+// 渐进式获取语录
 async function fetchQuotesProgressively(onFirstBatch, onUpdate, maxBatches = 10) {
     const allQuotes = [];
-    const batchSize = 5; // 每次最多5条
+    const batchSize = 5;
     let consecutiveFailures = 0;
     const maxConsecutiveFailures = 2;
     let firstBatchDisplayed = false;
-    
     console.log(`🎯 开始渐进式获取语录，每批次${batchSize}条，最多${maxBatches}批次`);
-    
     for (let batch = 0; batch < maxBatches; batch++) {
         console.log(`📦 第${batch + 1}批次`);
-        
         const batchQuotes = await fetchBatch(batchSize);
-        
         if (batchQuotes.length > 0) {
             allQuotes.push(...batchQuotes);
             consecutiveFailures = 0;
             console.log(`✅ 已累计获取 ${allQuotes.length} 条语录`);
-            
-            // 第一批获取成功后立即显示
             if (!firstBatchDisplayed) {
                 console.log(`🚀 第一批获取成功，立即显示${allQuotes.length}条语录`);
-                onFirstBatch(allQuotes.slice()); // 传递副本
+                onFirstBatch(allQuotes.slice());
                 firstBatchDisplayed = true;
             } else {
-                // 后续批次获取成功后更新显示
                 console.log(`🔄 更新显示，现有${allQuotes.length}条语录`);
-                onUpdate(allQuotes.slice()); // 传递副本
+                onUpdate(allQuotes.slice());
             }
-            
-            // 批次间隔
             if (batch < maxBatches - 1) {
                 console.log('⏳ 批次间隔500ms...');
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -165,51 +134,34 @@ async function fetchQuotesProgressively(onFirstBatch, onUpdate, maxBatches = 10)
         } else {
             consecutiveFailures++;
             console.warn(`⚠️ 第${batch + 1}批次获取失败 (连续失败${consecutiveFailures}次)`);
-            
-            // 如果第一批就失败了，返回错误
             if (!firstBatchDisplayed && batch === 0) {
                 console.warn('❌ 第一批获取失败，返回错误');
                 return false;
             }
-            
-            // 连续失败太多次就停止
             if (consecutiveFailures >= maxConsecutiveFailures) {
                 console.warn(`⚠️ 连续${maxConsecutiveFailures}批次失败，停止后续获取`);
                 break;
             }
-            
-            // 失败后稍微等待再重试
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
     }
-    
     console.log(`🎉 渐进式获取完成，总共获取${allQuotes.length}条语录`);
     return firstBatchDisplayed;
 }
 
 onMounted(async () => {
     console.log('🚀 开始渐进式获取API语录...');
-    
-    // 第一批获取成功的回调 - 立即显示
     const handleFirstBatch = (quotes) => {
         console.log(`🎬 第一批语录显示，共${quotes.length}条`);
-        initializeTypeIt(quotes, true); // 标记为首次显示
+        initializeTypeIt(quotes, true);
     };
-    
-    // 后续批次获取成功的回调 - 静默存储，不打断当前显示
     const handleUpdate = (allQuotes) => {
         console.log(`📥 后台获取到更多语录，共${allQuotes.length}条`);
-        
-        // 静默存储，不打断当前显示的内容
         storeBackgroundQuotes(allQuotes);
-        
         console.log('🔇 后续批次已静默处理，不会打断当前打字效果');
     };
-    
     try {
-        // 使用渐进式获取
         const success = await fetchQuotesProgressively(handleFirstBatch, handleUpdate);
-        
         if (!success) {
             console.warn('⚠️ 第一批语录获取失败，显示错误提示');
             const errorQuote = ["API获取失败，请稍后刷新页面重试"];
@@ -222,26 +174,21 @@ onMounted(async () => {
     }
 })
 
-// 组件销毁时清理TypeIt实例和相关数据
 onUnmounted(() => {
     if (typeItInstance) {
         console.log('🧹 清理TypeIt实例');
         typeItInstance.destroy();
         typeItInstance = null;
     }
-    
     if (updateTimer) {
         console.log('🧹 清理更新定时器');
         clearTimeout(updateTimer);
         updateTimer = null;
     }
-    
-    // 清理语录相关数据
     console.log('🧹 清理语录相关数据');
     displayedQuotes.clear();
     backgroundQuotes = [];
 })
-
 </script>
  
 <style scoped>
